@@ -2,46 +2,34 @@ import os
 import re
 import math
 
-bag = {
-    'red': 12,
-    'green': 13,
-    'blue': 14,
-}
-
-ids_that_are_possible = []
-
 with open('{}/input'.format(os.path.dirname(__file__)), 'r') as f:
     lines = [line.replace('\n', '') for line in f.readlines()]
+    bag = {
+        'red': 12,
+        'green': 13,
+        'blue': 14,
+    }
+    sum_of_possible_ids = 0
     sum_of_prods = 0
 
     for line in lines:
-        ID = re.match(r"Game (\d+):", line).group(1)
+        game_id = re.match(r"Game (\d+):", line).group(1)
         game_possibility = []
         cubes_required = {
             'red': 0,
             'green': 0,
             'blue': 0
         }
-        [
-            [
+        for game in line.split('; '):
+            for *_, value, color in re.findall(r"((\d+) (\w+))", game):
                 game_possibility.append(int(value) <= bag.get(color))
-                for *_, value, color in re.findall(r"((\d+) (\w+))", game)
-            ]
-            for game in line.split('; ')
-        ]
-        [
-            [
-                cubes_required.__setitem__(color, int(value))
-                for *_, value, color in re.findall(r"((\d+) (\w+))", game)
-                if cubes_required.get(color) < int(value)
-            ]
-            for game in line.split('; ')
-        ]
+                if cubes_required.get(color) < int(value):
+                    cubes_required.__setitem__(color, int(value))
 
         sum_of_prods += math.prod(cubes_required.values())
 
         if all(game_possibility):
-            ids_that_are_possible.append(int(ID))
+            sum_of_possible_ids += int(game_id)
 
-print('part1 =', sum(ids_that_are_possible))
+print('part1 =', sum_of_possible_ids)
 print('part2 =', sum_of_prods)
