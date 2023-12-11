@@ -10,7 +10,6 @@ def expand(matrix):
 
     for x, row in enumerate(matrix):
         if all([col == '.' for col in row]):
-            print('append row {}'.format(x))
             result.append(row)
         result.append(row)
 
@@ -18,7 +17,6 @@ def expand(matrix):
 
     for y, col in enumerate(matrix[0]):
         if all([matrix[x][y] == '.' for x, row in enumerate(matrix)]):
-            print('append col {}'.format(y))
             for x, v in enumerate(result):
                 result[x] = result[x][:y + cols_added] + ['.'] + result[x][y + cols_added:]
 
