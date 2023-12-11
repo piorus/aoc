@@ -22,9 +22,7 @@ def calculate_expansion_points(matrix):
 
 
 expanded_rows, expanded_cols = calculate_expansion_points(galaxy_matrix)
-
-space = galaxy_matrix
-galaxies = [(x, y) for x, row in enumerate(space) for y, col in enumerate(row) if col != '.']
+galaxies = [(x, y) for x, row in enumerate(galaxy_matrix) for y, col in enumerate(row) if col != '.']
 
 
 def measure(expansion_multiplier):
